@@ -3,14 +3,61 @@ body {
   font-size: 16px;
 }
 
+/* columns */
 .swim-lanes {
   min-height: 60vh;
+  display: flex;
+  justify-content: center;
 }
 
+
+
+
+/* cards */
 .task-card {
-  margin: 0 auto;
+  margin: 0 1em 1em 0;
+  padding: 0.3em;
 }
 
 .task-card:hover {
   cursor: grab;
 }
+
+.task-card-header {
+  padding: 0.2em 0.3em;
+  margin-bottom: 0.5em;
+  position: relative;
+}
+
+
+.task-card-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -8px;
+  cursor: pointer;
+}
+.task-card-content {
+  padding: 0.4em;
+}
+.task-card-placeholder {
+  border: 1px dotted black;
+  margin: 0 1em 1em 0;
+  height: 50px;
+} 
+
+
+/* ---- modal ---- */
+.modal-footer {
+  justify-content: space-between;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+
+
+
+
+
+
+
