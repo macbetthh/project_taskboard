@@ -10,15 +10,22 @@ function generateTaskId() {
 }
 
 // Todo: create a function to create a task card
-function createTaskCard(task) {
+function createTaskCard(task, progress) {
     const deadlineDate = dayjs(task.deadline);
-
-    // Determine color class based on deadline
     let colorClass = '';
+
+    // Determine color class based on deadline and progress
     if (deadlineDate.isBefore(dayjs(), 'day')) {
         colorClass = 'bg-danger text-light'; // Past deadline - Red color
     } else if (deadlineDate.isSame(dayjs(), 'day')) {
         colorClass = 'bg-warning'; // Due today - Yellow color
+    } else {
+        colorClass = ''; // Deadline in the future - No additional color
+    }
+
+    // For tasks in the "done" column, remove background color classes
+    if (progress === 'done') {
+        colorClass = 'text-dark'; // Set text color to dark
     }
     //     colorClass = ''; // Deadline in the future - No additional color
     //     textColorClass = 'text-dark'; // Set text color to dark
@@ -48,7 +55,6 @@ function createTaskCard(task) {
 function renderTaskList() {
     const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-    
     const todoContainer = document.getElementById('todo-cards');
     const inProgressContainer = document.getElementById('in-progress-cards');
     const doneContainer = document.getElementById('done-cards');
@@ -57,11 +63,8 @@ function renderTaskList() {
     doneContainer.innerHTML = '';
 
     storedTasks.forEach(task => {
-        
-
-
         const progress = task.progress || 'todo';
-        const taskCardHTML = createTaskCard(task);
+        const taskCardHTML = createTaskCard(task, progress);
 
         switch (progress) {
             case 'to-do':
@@ -76,30 +79,20 @@ function renderTaskList() {
             default:
                 console.error(`Invalid task progress state: ${progress}`);
         }
+    });
 
-        /*if statement to check how close to due date - past due or near do -- set color accordingly
-        second if statement after first is closed, check if progress is done -- set color to green/base color*/
-    });  
-    
-    /*task cards are draggable */
+    // Make task cards draggable
     $('.task-card').draggable({
-        // containment: 'body', 
-        cursor: 'grab', 
-        // revert: 'invalid',
+        cursor: 'grab',
         opacity: 0.7,
         zIndex: 100,
-        helper: function(event) {
-            const original= $(event.target).hasClass('ui-draggable')
-            ? $(event.target)
-            : $(event.target).closest('.ui-draggable');
-
+        helper: function (event) {
+            const original = $(event.target).hasClass('ui-draggable') ? $(event.target) : $(event.target).closest('.ui-draggable');
             return original.clone().css({
                 maxWidth: original.outerWidth()
             });
         }
     });
-
-
 }
 
 // Todo: create a function to handle adding a new task
@@ -188,13 +181,8 @@ function handleDrop(event, ui) {
     }
     console.log(taskList);
     localStorage.setItem('tasks', JSON.stringify(taskList));
-
+    
     renderTaskList();
-
-     // Remove color class when task is moved to the "done" column
-     if (newStatus === 'done') {
-        $(`[data-task-id="${taskId}"] .card-header`).removeClass('bg-danger bg-warning').addClass('text-dark');
-    }
 
 }
 
