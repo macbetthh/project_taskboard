@@ -1,5 +1,5 @@
 # Project Task Board
-##A Simple Kanban Board
+## A Simple Kanban Board
 
 ## Description
 
