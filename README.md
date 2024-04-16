@@ -29,7 +29,7 @@ This project is a task manager application that helps users organize and track t
 ## Screenshots
 
 Full functionality of site - including task creation, draggables, color changes, and task deletion.
-![](gif url here?raw=true "Gif showing the functionality of the entire taskboard") 
+![](https://github.com/macbetthh/project_taskboard/blob/main/assets/images/taskboard_function.gif?raw=true "Gif showing the functionality of the entire taskboard") 
 
 ## Credits
 
