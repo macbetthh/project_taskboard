@@ -2,6 +2,7 @@
 let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 let nextId = JSON.parse(localStorage.getItem("nextId")) || 1;
 
+
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
     localStorage.setItem("nextId", JSON.stringify(nextId + 1));
@@ -10,19 +11,37 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
+    const deadlineDate = dayjs(task.deadline);
+
+    // Determine color class based on deadline
+    let colorClass = '';
+    if (deadlineDate.isBefore(dayjs(), 'day')) {
+        colorClass = 'bg-danger text-light'; // Past deadline - Red color
+    } else if (deadlineDate.isSame(dayjs(), 'day')) {
+        colorClass = 'bg-warning'; // Due today - Yellow color
+    }
+    //     colorClass = ''; // Deadline in the future - No additional color
+    //     textColorClass = 'text-dark'; // Set text color to dark
+    // }
+
+    
     return `
-    <div class="card mb-3 task-card" data-task-id="${task.id}" >
-    <div class="card-header">
+    <div class="card mb-3 task-card " data-task-id="${task.id}" >
+    <div class="card-header ${colorClass}">
         <h5 class="card-title">Task: ${task.title}</h5>
     </div>
     <div class="card-body">
         <p class="card-text">Description: ${task.description}</p>
         <p class="card-text">Deadline: ${task.deadline}</p>
     </div>
-    <div class="card-footer text-body-secondary">
-        <a href="#" class="btn btn-secondary delete-task-btn">Delete</a>
+    <div class="card-footer text-body-secondary bg-light">
+        <a href="#" class="btn btn-danger delete-task-btn">Delete</a>
     </div>
 </div>`;
+
+
+
+
 }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -91,7 +110,7 @@ function handleAddTask(event){
     const taskNameInput = document.querySelector('#task-name').value;
     const taskDescriptionInput = document.querySelector('.task-description').value;
     const taskDeadlineInput = document.querySelector('#datepicker').value;
-    console.log(taskDeadlineInput);
+
     
     /*Create a new task array item*/
     const newTask = {
@@ -171,6 +190,11 @@ function handleDrop(event, ui) {
     localStorage.setItem('tasks', JSON.stringify(taskList));
 
     renderTaskList();
+
+     // Remove color class when task is moved to the "done" column
+     if (newStatus === 'done') {
+        $(`[data-task-id="${taskId}"] .card-header`).removeClass('bg-danger bg-warning').addClass('text-dark');
+    }
 
 }
 
