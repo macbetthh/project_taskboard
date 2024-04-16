@@ -16,7 +16,7 @@ This project is a task manager application that helps users organize and track t
 
 ## Usage
 
-[Click here to navigate to deployed page](url here)
+[Click here to navigate to deployed page](https://macbetthh.github.io/project_taskboard/)
 
 - Navigate to the task manager application.
 - Create a new task by clicking the "Add Task" button and filling out the form in the modal dialog.
